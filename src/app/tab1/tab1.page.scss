@@ -20,10 +20,72 @@
   align-items: center;
   display: flex;
   gap: 12px;
-  margin: 14px 0;
+  margin: 12px 0;
 }
 
 .info-row ion-icon {
   color: var(--ion-color-secondary);
   font-size: 1.35rem;
+}
+
+.stats-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.stat-box {
+  background: rgba(37, 99, 235, 0.08);
+  border-radius: 8px;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.stat-box strong {
+  color: var(--ion-color-primary);
+  display: block;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.stat-box span {
+  color: var(--ion-color-medium);
+  display: block;
+  font-size: 0.76rem;
+  margin-top: 6px;
+}
+
+.stat-box.complete {
+  background: rgba(22, 163, 74, 0.1);
+}
+
+.stat-box.complete strong {
+  color: var(--ion-color-success);
+}
+
+.stat-box.overdue {
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.stat-box.overdue strong {
+  color: var(--ion-color-danger);
+}
+
+.progress-block {
+  margin-top: 18px;
+}
+
+.progress-block div {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.progress-block strong {
+  color: var(--ion-color-primary);
+}
+
+.next-card ion-button {
+  margin-top: 16px;
 }

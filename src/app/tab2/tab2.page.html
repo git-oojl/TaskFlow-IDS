@@ -14,11 +14,27 @@
   <section class="page-wrap">
     <div class="list-heading">
       <h1>Tareas guardadas</h1>
-      <p>Datos locales cargados desde el servicio de TaskFlow.</p>
+      <p>Filtra por tiempo y marca avances reales.</p>
     </div>
 
-    @for (task of tasks; track task.id) {
-      <ion-card class="taskflow-card task-card" [class.completed]="task.status === 'completada'">
+    <ion-segment [value]="selectedFilter" (ionChange)="changeFilter($event.detail.value)">
+      <ion-segment-button value="Todas">
+        <ion-label>Todas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Hoy">
+        <ion-label>Hoy</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Esta semana">
+        <ion-label>Semana</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    @for (task of filteredTasks(); track task.id) {
+      <ion-card
+        class="taskflow-card task-card"
+        [class.completed]="task.status === 'completada'"
+        [class.overdue]="taskService.isOverdue(task)"
+      >
         <ion-card-header>
           <ion-card-subtitle>{{ task.subject }}</ion-card-subtitle>
           <ion-card-title>{{ task.title }}</ion-card-title>
@@ -35,6 +51,13 @@
             </span>
           </div>
 
+          @if (taskService.isOverdue(task)) {
+            <p class="overdue-label">
+              <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+              Tarea atrasada
+            </p>
+          }
+
           <div class="chip-row">
             <ion-chip [color]="priorityColor(task.priority)">
               {{ task.priority }}
@@ -43,12 +66,21 @@
               {{ task.status === 'pendiente' ? 'Pendiente' : 'Completada' }}
             </ion-chip>
           </div>
+
+          <div class="toggle-row">
+            <span>Marcar como completada</span>
+            <ion-toggle
+              [checked]="task.status === 'completada'"
+              (ionChange)="toggleTask(task)"
+              aria-label="Cambiar estado de tarea"
+            ></ion-toggle>
+          </div>
         </ion-card-content>
       </ion-card>
     } @empty {
       <ion-card class="taskflow-card">
         <ion-card-content>
-          <ion-note>No hay tareas guardadas.</ion-note>
+          <ion-note>No hay tareas para este filtro.</ion-note>
         </ion-card-content>
       </ion-card>
     }

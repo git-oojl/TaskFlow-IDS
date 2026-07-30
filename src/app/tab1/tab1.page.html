@@ -20,21 +20,78 @@
 
     <ion-card class="taskflow-card">
       <ion-card-header>
-        <ion-card-subtitle>Enfoque</ion-card-subtitle>
-        <ion-card-title>Seguimiento sencillo para estudiantes</ion-card-title>
+        <ion-card-subtitle>Resumen</ion-card-subtitle>
+        <ion-card-title>Avance del trabajo académico</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <div class="info-row">
-          <ion-icon name="school-outline" aria-hidden="true"></ion-icon>
-          <span>Materias visibles y tareas separadas por estado.</span>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <strong>{{ pendingCount }}</strong>
+            <span>Pendientes</span>
+          </div>
+          <div class="stat-box complete">
+            <strong>{{ completedCount }}</strong>
+            <span>Completadas</span>
+          </div>
+          <div class="stat-box overdue">
+            <strong>{{ overdueCount }}</strong>
+            <span>Atrasadas</span>
+          </div>
         </div>
-        <div class="info-row">
-          <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
-          <span>Fechas limite como referencia principal.</span>
+
+        <div class="progress-block">
+          <div>
+            <span>Progreso</span>
+            <strong>{{ completionPercentage }}%</strong>
+          </div>
+          <ion-progress-bar [value]="completionPercentage / 100"></ion-progress-bar>
         </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="taskflow-card next-card">
+      <ion-card-header>
+        <ion-card-subtitle>Siguiente pendiente</ion-card-subtitle>
+        <ion-card-title>
+          @if (nextTask) {
+            {{ nextTask.title }}
+          } @else {
+            Sin tareas pendientes
+          }
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        @if (nextTask) {
+          <div class="info-row">
+            <ion-icon name="school-outline" aria-hidden="true"></ion-icon>
+            <span>{{ nextTask.subject }}</span>
+          </div>
+          <div class="info-row">
+            <ion-icon name="time-outline" aria-hidden="true"></ion-icon>
+            <span>{{ formatDate(nextTask.dueAt) }}</span>
+          </div>
+          @if (taskService.isOverdue(nextTask)) {
+            <ion-badge color="danger">Atrasada</ion-badge>
+          }
+        } @else {
+          <div class="info-row">
+            <ion-icon name="checkmark-circle-outline" aria-hidden="true"></ion-icon>
+            <span>Todas las tareas registradas están completadas.</span>
+          </div>
+        }
+
+        <ion-button expand="block" routerLink="/tabs/tareas">
+          <ion-icon slot="start" name="list-outline" aria-hidden="true"></ion-icon>
+          Ver tareas
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="taskflow-card">
+      <ion-card-content>
         <div class="info-row">
-          <ion-icon name="checkmark-circle-outline" aria-hidden="true"></ion-icon>
-          <span>Progreso pensado para consulta rápida.</span>
+          <ion-icon name="alert-circle-outline" aria-hidden="true"></ion-icon>
+          <span>Las tareas completadas no se cuentan como atrasadas.</span>
         </div>
       </ion-card-content>
     </ion-card>
