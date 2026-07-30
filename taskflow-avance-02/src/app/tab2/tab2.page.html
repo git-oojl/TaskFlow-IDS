@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Tareas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Tareas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <section class="page-wrap">
+    <div class="list-heading">
+      <h1>Tareas guardadas</h1>
+      <p>Datos locales cargados desde el servicio de TaskFlow.</p>
+    </div>
+
+    @for (task of tasks; track task.id) {
+      <ion-card class="taskflow-card task-card" [class.completed]="task.status === 'completada'">
+        <ion-card-header>
+          <ion-card-subtitle>{{ task.subject }}</ion-card-subtitle>
+          <ion-card-title>{{ task.title }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="task-meta">
+            <span>
+              <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+              {{ formatDate(task.dueAt) }}
+            </span>
+            <span>
+              <ion-icon name="flag-outline" aria-hidden="true"></ion-icon>
+              Prioridad {{ task.priority }}
+            </span>
+          </div>
+
+          <div class="chip-row">
+            <ion-chip [color]="priorityColor(task.priority)">
+              {{ task.priority }}
+            </ion-chip>
+            <ion-chip [color]="statusColor(task.status)">
+              {{ task.status === 'pendiente' ? 'Pendiente' : 'Completada' }}
+            </ion-chip>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    } @empty {
+      <ion-card class="taskflow-card">
+        <ion-card-content>
+          <ion-note>No hay tareas guardadas.</ion-note>
+        </ion-card-content>
+      </ion-card>
+    }
+  </section>
+</ion-content>
