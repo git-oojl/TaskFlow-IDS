@@ -41,13 +41,14 @@ body {
 }
 
 ion-toolbar {
-  --background: #ffffff;
-  --color: #0f172a;
+  --background: var(--ion-toolbar-background, var(--ion-background-color));
+  --color: var(--ion-text-color);
+  --border-color: var(--ion-border-color);
 }
 
 ion-tab-bar {
-  --background: #ffffff;
-  --border: 1px solid rgba(15, 23, 42, 0.08);
+  --background: var(--ion-tab-bar-background, var(--ion-background-color));
+  --border: 1px solid var(--ion-border-color);
   min-height: 64px;
 }
 

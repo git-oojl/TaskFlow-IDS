@@ -17,6 +17,12 @@ ion-segment {
   margin-bottom: 16px;
 }
 
+.subject-filter {
+  --background: rgba(37, 99, 235, 0.06);
+  --border-radius: 8px;
+  margin-bottom: 16px;
+}
+
 .task-card.completed {
   opacity: 0.82;
 }
@@ -74,4 +80,15 @@ ion-segment {
 .toggle-row span {
   color: var(--ion-color-medium);
   font-size: 0.92rem;
+}
+
+.action-row {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.action-row ion-button {
+  min-width: 92px;
 }

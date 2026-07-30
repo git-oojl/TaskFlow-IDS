@@ -17,7 +17,7 @@
       <p>Filtra por tiempo y marca avances reales.</p>
     </div>
 
-    <ion-segment [value]="selectedFilter" (ionChange)="changeFilter($event.detail.value)">
+    <ion-segment [scrollable]="true" [value]="selectedFilter" (ionChange)="changeFilter($event.detail.value)">
       <ion-segment-button value="Todas">
         <ion-label>Todas</ion-label>
       </ion-segment-button>
@@ -27,7 +27,30 @@
       <ion-segment-button value="Esta semana">
         <ion-label>Semana</ion-label>
       </ion-segment-button>
+      <ion-segment-button value="Pendientes">
+        <ion-label>Pendientes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Completadas">
+        <ion-label>Completadas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Atrasadas">
+        <ion-label>Atrasadas</ion-label>
+      </ion-segment-button>
     </ion-segment>
+
+    <ion-item class="subject-filter">
+      <ion-select
+        label="Materia"
+        labelPlacement="stacked"
+        [value]="selectedSubject"
+        (ionChange)="changeSubject($event.detail.value)"
+      >
+        <ion-select-option value="Todas las materias">Todas las materias</ion-select-option>
+        @for (subject of subjects; track subject) {
+          <ion-select-option [value]="subject">{{ subject }}</ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
 
     @for (task of filteredTasks(); track task.id) {
       <ion-card
@@ -75,12 +98,23 @@
               aria-label="Cambiar estado de tarea"
             ></ion-toggle>
           </div>
+
+          <div class="action-row">
+            <ion-button fill="outline" size="small" [routerLink]="['/editar-tarea', task.id]">
+              <ion-icon slot="start" name="create-outline" aria-hidden="true"></ion-icon>
+              Editar
+            </ion-button>
+            <ion-button fill="clear" size="small" color="danger" (click)="confirmDelete(task)">
+              <ion-icon slot="start" name="trash-outline" aria-hidden="true"></ion-icon>
+              Eliminar
+            </ion-button>
+          </div>
         </ion-card-content>
       </ion-card>
     } @empty {
       <ion-card class="taskflow-card">
         <ion-card-content>
-          <ion-note>No hay tareas para este filtro.</ion-note>
+          <ion-note>No hay tareas para mostrar con este filtro.</ion-note>
         </ion-card-content>
       </ion-card>
     }

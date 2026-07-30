@@ -59,8 +59,26 @@ export class TaskService {
     await this.saveTasks();
   }
 
+  getTaskById(id: string): AcademicTask | undefined {
+    return this.tasks.find((task) => task.id === id);
+  }
+
+  async updateTask(updatedTask: AcademicTask): Promise<void> {
+    this.tasks = this.tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task));
+    await this.saveTasks();
+  }
+
+  async deleteTask(id: string): Promise<void> {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
+    await this.saveTasks();
+  }
+
   getTasks(): AcademicTask[] {
     return [...this.tasks].sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
+  }
+
+  getSubjects(): string[] {
+    return Array.from(new Set(this.tasks.map((task) => task.subject))).sort((a, b) => a.localeCompare(b, 'es'));
   }
 
   isOverdue(task: AcademicTask): boolean {
