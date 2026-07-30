@@ -12,28 +12,45 @@
   </ion-header>
 
   <section class="page-wrap">
-    <ion-card class="taskflow-card">
-      <ion-card-header>
-        <ion-card-title>Lista academica</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Esta sección concentrará las tareas guardadas del estudiante.</p>
-        <div class="status-grid">
-          <div>
-            <ion-icon name="layers-outline" aria-hidden="true"></ion-icon>
-            <strong>Materia</strong>
+    <div class="list-heading">
+      <h1>Tareas guardadas</h1>
+      <p>Datos locales cargados desde el servicio de TaskFlow.</p>
+    </div>
+
+    @for (task of tasks; track task.id) {
+      <ion-card class="taskflow-card task-card" [class.completed]="task.status === 'completada'">
+        <ion-card-header>
+          <ion-card-subtitle>{{ task.subject }}</ion-card-subtitle>
+          <ion-card-title>{{ task.title }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="task-meta">
+            <span>
+              <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
+              {{ formatDate(task.dueAt) }}
+            </span>
+            <span>
+              <ion-icon name="flag-outline" aria-hidden="true"></ion-icon>
+              Prioridad {{ task.priority }}
+            </span>
           </div>
-          <div>
-            <ion-icon name="calendar-outline" aria-hidden="true"></ion-icon>
-            <strong>Fecha límite</strong>
+
+          <div class="chip-row">
+            <ion-chip [color]="priorityColor(task.priority)">
+              {{ task.priority }}
+            </ion-chip>
+            <ion-chip [color]="statusColor(task.status)">
+              {{ task.status === 'pendiente' ? 'Pendiente' : 'Completada' }}
+            </ion-chip>
           </div>
-          <div>
-            <ion-icon name="flag-outline" aria-hidden="true"></ion-icon>
-            <strong>Prioridad</strong>
-          </div>
-        </div>
-        <ion-badge color="medium">Sin datos locales en este avance</ion-badge>
-      </ion-card-content>
-    </ion-card>
+        </ion-card-content>
+      </ion-card>
+    } @empty {
+      <ion-card class="taskflow-card">
+        <ion-card-content>
+          <ion-note>No hay tareas guardadas.</ion-note>
+        </ion-card-content>
+      </ion-card>
+    }
   </section>
 </ion-content>

@@ -1,21 +1,46 @@
-.status-grid {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: 1fr;
-  margin: 18px 0;
+.list-heading {
+  margin: 8px 4px 16px;
 }
 
-.status-grid div {
+.list-heading h1 {
+  color: var(--ion-color-primary);
+  font-size: 1.65rem;
+  margin: 0 0 6px;
+}
+
+.list-heading p {
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+.task-card.completed {
+  opacity: 0.82;
+}
+
+.task-card.completed ion-card-title {
+  text-decoration: line-through;
+}
+
+.task-meta {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.task-meta span {
   align-items: center;
-  background: rgba(15, 118, 110, 0.08);
-  border-radius: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.task-meta ion-icon {
   color: var(--ion-color-primary);
   display: flex;
-  gap: 10px;
-  padding: 12px;
+  font-size: 1.05rem;
 }
 
-.status-grid ion-icon {
-  color: var(--ion-color-secondary);
-  font-size: 1.25rem;
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
