@@ -14,25 +14,96 @@
   <section class="page-wrap">
     <ion-card class="taskflow-card">
       <ion-card-header>
-        <ion-card-title>Registro academico</ion-card-title>
+        <ion-card-title>Registrar tarea</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p>La captura se organiza alrededor de la información mínima de una tarea.</p>
-        <ion-list lines="none">
+        <form #taskForm="ngForm" (ngSubmit)="saveTask()">
           <ion-item>
-            <ion-label>Título</ion-label>
+            <ion-input
+              label="Título"
+              labelPlacement="stacked"
+              name="title"
+              required
+              [(ngModel)]="draft.title"
+              placeholder="Ej. Preparar exposición"
+            ></ion-input>
           </ion-item>
+          @if (submitted && !draft.title.trim()) {
+            <ion-text color="danger">El título es obligatorio.</ion-text>
+          }
+
           <ion-item>
-            <ion-label>Materia</ion-label>
+            <ion-textarea
+              label="Descripción opcional"
+              labelPlacement="stacked"
+              name="description"
+              [(ngModel)]="draft.description"
+              autoGrow="true"
+              placeholder="Detalles útiles para recordar"
+            ></ion-textarea>
           </ion-item>
+
           <ion-item>
-            <ion-label>Fecha y hora límite</ion-label>
+            <ion-input
+              label="Materia"
+              labelPlacement="stacked"
+              name="subject"
+              required
+              [(ngModel)]="draft.subject"
+              placeholder="Ej. Matemáticas"
+            ></ion-input>
           </ion-item>
+          @if (submitted && !draft.subject.trim()) {
+            <ion-text color="danger">La materia es obligatoria.</ion-text>
+          }
+
           <ion-item>
-            <ion-label>Prioridad</ion-label>
+            <ion-select
+              label="Prioridad"
+              labelPlacement="stacked"
+              name="priority"
+              required
+              [(ngModel)]="draft.priority"
+              placeholder="Selecciona prioridad"
+            >
+              @for (priority of priorities; track priority) {
+                <ion-select-option [value]="priority">{{ priority }}</ion-select-option>
+              }
+            </ion-select>
           </ion-item>
-        </ion-list>
+          @if (submitted && !draft.priority) {
+            <ion-text color="danger">La prioridad es obligatoria.</ion-text>
+          }
+
+          <ion-item>
+            <ion-label position="stacked">Fecha y hora límite</ion-label>
+            <ion-datetime
+              name="dueAt"
+              presentation="date-time"
+              [(ngModel)]="draft.dueAt"
+              hourCycle="h23"
+            ></ion-datetime>
+          </ion-item>
+          @if (submitted && !draft.dueAt) {
+            <ion-text color="danger">La fecha y hora límite son obligatorias.</ion-text>
+          }
+          @if (submitted && draft.dueAt && !isFormValid) {
+            <ion-text color="danger">La fecha seleccionada no es válida.</ion-text>
+          }
+
+          <ion-button expand="block" type="submit">
+            Guardar tarea
+          </ion-button>
+        </form>
       </ion-card-content>
     </ion-card>
   </section>
+
+  <ion-toast
+    [isOpen]="showSuccessToast"
+    message="Tarea guardada correctamente."
+    duration="1800"
+    color="success"
+    (didDismiss)="resetToast()"
+  ></ion-toast>
 </ion-content>
