@@ -167,14 +167,14 @@ export class Tab2Page implements OnInit {
   async confirmDelete(task: AcademicTask): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Eliminar tarea',
-      message: `¿Deseas eliminar "${task.title}"?`,
+      message: `¿Quieres eliminar la tarea "${task.title}"?`,
       buttons: [
         {
-          text: 'Cancelar',
+          text: 'No',
           role: 'cancel',
         },
         {
-          text: 'Eliminar',
+          text: 'Sí, eliminar',
           role: 'destructive',
           handler: async () => {
             await this.taskService.deleteTask(task.id);
